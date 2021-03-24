@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
     private GameObject orangeColor;
     private Button startButton;
     private Text actionText;
+    private Text successText;
     private Text scoreText;
     private Text startButtonText;
 
@@ -99,8 +100,12 @@ public class GameManager : MonoBehaviour
         yellowColor = GameObject.FindGameObjectWithTag("YellowColor");
         actionText = GameObject.FindGameObjectWithTag("ActionText").GetComponent<Text>();
         scoreText = GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>();
+        successText = GameObject.FindGameObjectWithTag("SuccessText").GetComponent<Text>();
         startButtonText = GameObject.FindGameObjectWithTag("StartButtonText").GetComponent<Text>();
         startButton = GameObject.FindGameObjectWithTag("StartButton").GetComponent<Button>();
+
+        // disable not needed objects
+        successText.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -133,6 +138,8 @@ public class GameManager : MonoBehaviour
             timePassed += Time.deltaTime;
             if(timePassed > currentSpeed)
             {
+                successText.gameObject.SetActive(false);
+
                 if(!isLastActionPressed)
                 {
                     healthBarScale -= healthBarScaleChange;
@@ -190,6 +197,7 @@ public class GameManager : MonoBehaviour
                    latestAction.CheckInput())
                 {
                     actionText.gameObject.SetActive(false);
+                    successText.gameObject.SetActive(true);
                     isLastActionPressed = true;
                     IncrementScore();
                 }
